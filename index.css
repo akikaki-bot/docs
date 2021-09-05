@@ -33,7 +33,8 @@ nav {
   right: 0;
   overflow-x: hidden;
   text-align: center;
-  width: 0; /* ←100%から 0 に変更 */
+  width: 0;
+  transition: .5s; /* ← 追加 */
 }
  
 /* メニューを開いた時 */
