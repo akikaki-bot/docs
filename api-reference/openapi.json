@@ -70,6 +70,39 @@
                     }
                 }
             },
+            "delete" : {
+                "description": "指定IDの登録情報を削除します。",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "学校のID",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Plant deleted",
+                        "content": {}
+                    },
+                    "400": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/school" : {
             "post": {
                 "description": "新しく学校を登録する",
                 "requestBody": {
@@ -106,37 +139,6 @@
                     }
                 }
             },
-            "delete" : {
-                "description": "指定IDの登録情報を削除します。",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "description": "学校のID",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Plant deleted",
-                        "content": {}
-                    },
-                    "400": {
-                        "description": "unexpected error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         },
         "/plants/{id}": {
             "delete": {
