@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": " Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
+    "title": " HSS-API Endpoints",
+    "description": "APIの仕様書",
     "license": {
       "name": "MIT"
     },
@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
+      "url": "http://hss-dev.aknet.tech/v1"
     }
   ],
   "security": [
@@ -19,14 +19,14 @@
     }
   ],
   "paths": {
-    "/plants": {
+    "/school": {
       "get": {
-        "description": "Returns all plants from the system that the user has access to",
+        "description": "指定IDの学校情報を返却します。",
         "parameters": [
           {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
+            "name": "id",
+            "in": "param",
+            "description": "学校のID",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -35,11 +35,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Plant response",
+            "description": "学校情報",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
+                  "type": "object",
                   "items": {
                     "$ref": "#/components/schemas/Plant"
                   }
@@ -48,7 +48,17 @@
             }
           },
           "400": {
-            "description": "Unexpected error",
+            "description": "Invaild user token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Invaild user or don't have a permission",
             "content": {
               "application/json": {
                 "schema": {
