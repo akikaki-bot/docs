@@ -1,205 +1,368 @@
 {
-  "openapi": "3.0.1",
-  "info": {
-    "title": " HSS-API Endpoints",
-    "description": "APIの仕様書",
-    "license": {
-      "name": "MIT"
-    },
-    "version": "1.0.0"
-  },
-  "servers": [
-    {
-      "url": "http://hss-dev.aknet.tech/v1"
-    }
-  ],
-  "security": [
-    {
-      "bearerAuth": []
-    }
-  ],
-  "paths": {
-    "/school": {
-      "get": {
-        "description": "指定IDの学校情報を返却します。",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "param",
-            "description": "学校のID",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "学校情報",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invaild user token",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Invaild user or don't have a permission",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "description": "Creates a new plant in the store",
-        "requestBody": {
-          "description": "Plant to add to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
-            }
-          },
-          "required": true
+    "openapi": "3.0.1",
+    "info": {
+        "title": " HSS-API Endpoints",
+        "description": "APIの仕様書",
+        "license": {
+            "name": "MIT"
         },
-        "responses": {
-          "200": {
-            "description": "plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Plant"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
+        "version": "1.0.0"
     },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
+    "servers": [
+        {
+            "url": "http://hss-dev.aknet.tech/v1"
+        }
+    ],
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "paths": {
+        "/school/{id}": {
+            "get": {
+                "description": "指定IDの学校情報を返却します。",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "学校のID",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "学校情報",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BaseScheme"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invaild user token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invaild user or don't have a permission",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
                 }
-              }
+            },
+            "post": {
+                "description": "新しく学校を登録する",
+                "requestBody": {
+                    "description": "Plant to add to the store",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BaseScheme"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BaseScheme"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete" : {
+                "description": "指定IDの登録情報を削除します。",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "学校のID",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Plant deleted",
+                        "content": {}
+                    },
+                    "400": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
             }
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
-          },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
-          }
-        }
-      },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
+        },
+        "/plants/{id}": {
+            "delete": {
+                "description": "Deletes a single plant based on the ID supplied",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of plant to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Plant deleted",
+                        "content": {}
+                    },
+                    "400": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
             }
-          }
-        ]
-      },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string"
-          }
         }
-      }
     },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
-      }
+    "components": {
+        "schemas": {
+            "BaseScheme": {
+                "required": [
+                    "details"
+                ],
+                "type": "object",
+                "properties": {
+                    "schoolId": {
+                        "type": "string",
+                        "description": "学校のID"
+                    },
+                    "details": {
+                        "type": "object",
+                        "description": "学校の詳細情報",
+                        "$ref": "#/components/schemas/DetailSchool"
+                    },
+                    "userDatas": {
+                        "type": "array",
+                        "description": "学校単位で保存されているユーザーのデータの配列"
+                    }
+                }
+            },
+            "DetailSchool": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "number",
+                        "enum": [
+                            0,
+                            1,
+                            2,
+                            3
+                        ]
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "学校の名前"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "学校のID"
+                    },
+                    "ownerId": {
+                        "type": "string",
+                        "description": "学校のオーナーID"
+                    },
+                    "admins": {
+                        "type": "array",
+                        "description": "学校の管理者IDの配列"
+                    }
+                }
+            },
+            "UserDatas": {
+                "type": "object",
+                "properties": {
+                    "grade": {
+                        "type": "number",
+                        "description": "学年"
+                    },
+                    "class": {
+                        "type": "number",
+                        "description": "クラス"
+                    },
+                    "timelineData": {
+                        "type": "object",
+                        "description": "1週間で設定されている時間割",
+                        "$ref": "#/components/schemas/MonthData",
+                        "propeties": {
+                            "type": "object",
+                            "$ref": "#/components/schemas/Subjects"
+                        }
+                    },
+                    "defaultTimelineData": {
+                        "type": "object",
+                        "description": "デフォルトの時間割",
+                        "$ref": "#/components/schemas/MonthData",
+                        "propeties": {
+                            "type": "object",
+                            "$ref": "#/components/schemas/Subjects"
+                        }
+                    },
+                    "eventData": {
+                        "type": "object",
+                        "description": "イベントのデータ",
+                        "$ref": "#/components/schemas/MonthData"
+                    },
+                    "defaultTimelineIndex": {
+                        "type": "number",
+                        "description": "デフォルトの時間割数",
+                        "default": 6
+                    }
+                }
+            },
+            "MonthData": {
+                "type": "object",
+                "properties": {
+                    "sun": {
+                        "type": "array",
+                        "description": "日曜日のデータ"
+                    },
+                    "mon": {
+                        "type": "array",
+                        "description": "月曜日のデータ"
+                    },
+                    "tue": {
+                        "type": "array",
+                        "description": "火曜日のデータ"
+                    },
+                    "wed": {
+                        "type": "array",
+                        "description": "水曜日のデータ"
+                    },
+                    "thu": {
+                        "type": "array",
+                        "description": "木曜日のデータ"
+                    },
+                    "fri": {
+                        "type": "array",
+                        "description": "金曜日のデータ"
+                    },
+                    "sat": {
+                        "type": "array",
+                        "description": "土曜日のデータ"
+                    }
+                }
+            },
+            "Subjects": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "科目名"
+                    },
+                    "place": {
+                        "type": "string",
+                        "description": "場所",
+                        "nullable": true
+                    },
+                    "homework": {
+                        "type": "array",
+                        "description": "宿題のデータ",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "宿題の名前"
+                            },
+                            "istooBig": {
+                                "type": "boolean",
+                                "description": "やるのに時間がかかるものか"
+                            },
+                            "page": {
+                                "type": "object",
+                                "properties": {
+                                    "start": {
+                                        "type": "string",
+                                        "description": "開始ページ"
+                                    },
+                                    "end": {
+                                        "type": "string",
+                                        "description": "終了ページ"
+                                    },
+                                    "comment": {
+                                        "type": "string",
+                                        "description": "補足",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "Error": {
+                "required": [
+                    "message"
+                ],
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "description": "エラーの原因"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
     }
-  }
 }
